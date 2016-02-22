@@ -1,3 +1,5 @@
+package at.bayava.rotn
+
 import org.scalatest.FunSpec
 import org.scalatest.prop.TableDrivenPropertyChecks._
 
