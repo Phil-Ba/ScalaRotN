@@ -103,11 +103,18 @@ class RotNAlphabetTest extends FunSpec {
 			)
 			val rot5 = RotNAlphabet(5)
 
-			it("correctly shift") {
+			it("correctly shift lower case letters") {
 				forAll(rot5Results) { (letter, shiftResult) =>
 					assert((rot5 >> letter) == shiftResult)
 				}
 			}
+
+			it("correctly shift upper case letters") {
+				forAll(rot5Results) { (letter, shiftResult) =>
+					assert((rot5 >> letter.toUpper) == shiftResult.toUpper)
+				}
+			}
+
 		}
 	}
 
