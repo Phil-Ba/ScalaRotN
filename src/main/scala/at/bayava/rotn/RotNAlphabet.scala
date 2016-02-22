@@ -7,7 +7,7 @@ class RotNAlphabet private(private val n: Int) {
 
 	def <<(c: Char): Char = RotNAlphabet.valueForChar(c) - n match {
 		case idx: Int if idx >= 0 => RotNAlphabet.charForValue(idx, c.isUpper)
-		case idx: Int if idx < 0 => RotNAlphabet.charForValue(idx, c.isUpper)
+		case idx: Int if idx < 0 => RotNAlphabet.charForValue(RotNAlphabet.size + idx, c.isUpper)
 	}
 
 	def >>(c: Char): Char = RotNAlphabet.charForValue((RotNAlphabet.valueForChar(c) + n) % RotNAlphabet.size, c

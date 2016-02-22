@@ -88,23 +88,23 @@ class RotNAlphabetTest extends FunSpec {
 		}
 	}
 
-	describe(">> should") {
+	describe("for a rotation of 5") {
 
-		describe("for a rotation of 5") {
-			val rot5Results = Table(("letter", "shiftResult"),
-				('a', 'f'),
-				('b', 'g'),
-				('c', 'h'),
-				('h', 'm'),
-				('h', 'm'),
-				('i', 'n'),
-				('z', 'b'),
-				('ä', 'c'),
-				('ö', 'd'),
-				('ü', 'e')
-			)
-			val rot5 = RotNAlphabet(5)
+		val rot5Results = Table(("letter", "shiftResult"),
+			('a', 'f'),
+			('b', 'g'),
+			('c', 'h'),
+			('h', 'm'),
+			('h', 'm'),
+			('i', 'n'),
+			('z', 'b'),
+			('ä', 'c'),
+			('ö', 'd'),
+			('ü', 'e')
+		)
+		val rot5 = RotNAlphabet(5)
 
+		describe(">> should") {
 			it("correctly shift lower case letters") {
 				forAll(rot5Results) { (letter, shiftResult) =>
 					assert((rot5 >> letter) == shiftResult)
@@ -116,8 +116,23 @@ class RotNAlphabetTest extends FunSpec {
 					assert((rot5 >> letter.toUpper) == shiftResult.toUpper)
 				}
 			}
-
 		}
+
+		describe("<< should") {
+			it("correctly unshift lower case letters") {
+				forAll(rot5Results) { (shiftResult, letter) =>
+					assert((rot5 << letter) == shiftResult)
+				}
+			}
+
+			it("correctly unshift upper case letters") {
+				forAll(rot5Results) { (shiftResult, letter) =>
+					assert((rot5 << letter.toUpper) == shiftResult.toUpper)
+				}
+			}
+		}
+
+
 	}
 
 }
