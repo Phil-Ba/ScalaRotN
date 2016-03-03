@@ -2,6 +2,7 @@ package at.bayava.rotn
 
 import org.scalatest.FunSpec
 import org.scalatest.prop.TableDrivenPropertyChecks._
+import org.scalatest.prop.TableFor2
 
 /**
 	* Created by philba on 2/20/16.
@@ -102,37 +103,42 @@ class RotNAlphabetTest extends FunSpec {
 			('ö', 'd'),
 			('ü', 'e')
 		)
+
 		val rot5 = RotNAlphabet(5)
+		val rot5Plus = RotNAlphabet(5 + RotNAlphabet.size)
 
 		describe(">> should") {
-			it("correctly shift lower case letters") {
-				forAll(rot5Results) { (letter, shiftResult) =>
-					assert((rot5 >> letter) == shiftResult)
-				}
+			it("correctly shift letters") {
+				validateShiftResult(rot5Results)(rot5)
 			}
-
-			it("correctly shift upper case letters") {
-				forAll(rot5Results) { (letter, shiftResult) =>
-					assert((rot5 >> letter.toUpper) == shiftResult.toUpper)
-				}
+			it("yield the same result for 2 alphabets which differ in exactly the alphabet size") {
+				validateShiftResult(rot5Results)(rot5Plus)
 			}
 		}
 
 		describe("<< should") {
-			it("correctly unshift lower case letters") {
-				forAll(rot5Results) { (shiftResult, letter) =>
-					assert((rot5 << letter) == shiftResult)
-				}
+			it("correctly unshift letters") {
+				validateUnshiftResult(rot5Results)(rot5)
 			}
-
-			it("correctly unshift upper case letters") {
-				forAll(rot5Results) { (shiftResult, letter) =>
-					assert((rot5 << letter.toUpper) == shiftResult.toUpper)
-				}
+			it("yield the same result for 2 alphabets which differ in exactly the alphabet size") {
+				validateUnshiftResult(rot5Results)(rot5Plus)
 			}
 		}
 
+	}
 
+	def validateShiftResult(results: TableFor2[Char, Char])(implicit alphabet: RotNAlphabet) = {
+		forAll(results) { (letter, shiftResult) =>
+			assert((alphabet >> letter) == shiftResult)
+			assert((alphabet >> letter.toUpper) == shiftResult.toUpper)
+		}
+	}
+
+	def validateUnshiftResult(results: TableFor2[Char, Char])(implicit alphabet: RotNAlphabet) = {
+		forAll(results) { (shiftResult, letter) =>
+			assert((alphabet << letter) == shiftResult)
+			assert((alphabet << letter.toUpper) == shiftResult.toUpper)
+		}
 	}
 
 }
