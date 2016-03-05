@@ -23,52 +23,6 @@ class RotNAlphabetTest extends FunSpec {
 		('Ü', 28)
 	)
 
-	describe("testLowerValue") {
-
-		it("should return the expected values for lower letters") {
-			forAll(lowerLetters) { (letter, expectedValue) =>
-				assert(RotNAlphabet.lowerValue.apply(letter) == expectedValue)
-			}
-		}
-
-		it("should throw an error for upper letters") {
-			forAll(upperLetters) { (letter, expectedValue) =>
-				intercept[MatchError] {
-					RotNAlphabet.lowerValue.apply(letter)
-				}
-			}
-		}
-
-		it("should throw an error for non-letters") {
-			intercept[MatchError] {
-				RotNAlphabet.lowerValue.apply('/')
-			}
-		}
-
-	}
-
-	describe("testUpperValue") {
-		it("should return the expected values for upper letters") {
-			forAll(upperLetters) { (letter, expectedValue) =>
-				assert(RotNAlphabet.upperValue.apply(letter) == expectedValue)
-			}
-		}
-
-		it("should throw an error for lower letters") {
-			forAll(lowerLetters) { (letter, expectedValue) =>
-				intercept[MatchError] {
-					RotNAlphabet.upperValue.apply(letter)
-				}
-			}
-		}
-
-		it("should throw an error for non-letters") {
-			intercept[MatchError] {
-				RotNAlphabet.upperValue.apply('/')
-			}
-		}
-	}
-
 	describe("valueForChar") {
 		it("should return the right value for lower letters") {
 			forAll(lowerLetters) { (letter, expectedValue) =>
@@ -83,8 +37,14 @@ class RotNAlphabetTest extends FunSpec {
 		}
 
 		it("should throw an error for non-letters") {
-			intercept[MatchError] {
+			intercept[IllegalArgumentException] {
 				RotNAlphabet.valueForChar('/')
+			}
+		}
+
+		it("should throw an error for letters outside of the alphabet") {
+			intercept[IllegalArgumentException] {
+				RotNAlphabet.valueForChar('â')
 			}
 		}
 	}
