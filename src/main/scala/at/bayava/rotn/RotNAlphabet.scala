@@ -5,11 +5,21 @@ package at.bayava.rotn
 	*/
 class RotNAlphabet private(private val n: Int) {
 
+	/**
+		*
+		* @param c
+		* @return
+		*/
 	def <<(c: Char): Char = RotNAlphabet.valueForChar(c) - n match {
 		case idx: Int if idx >= 0 => RotNAlphabet.charForValue(idx, c.isUpper)
 		case idx: Int if idx < 0 => RotNAlphabet.charForValue(RotNAlphabet.size + idx, c.isUpper)
 	}
 
+	/**
+		*
+		* @param c
+		* @return
+		*/
 	def >>(c: Char): Char = RotNAlphabet.charForValue((RotNAlphabet.valueForChar(c) + n) % RotNAlphabet.size, c
 		.isUpper)
 
